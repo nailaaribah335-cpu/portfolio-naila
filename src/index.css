@@ -1,0 +1,508 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-purple-bg: #E8DEFF;
+  --color-purple-accent: #8B5CF6;
+  --color-purple-deep: #7C3AED;
+  --color-purple-light: #F3EEFF;
+  --color-accent: #B9FF66;
+  --color-accent-hover: #a8ef55;
+  --color-bg-card: #FFFFFF;
+  --color-text-primary: #191A23;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-border: #E5E7EB;
+}
+
+/* ═══════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--color-purple-bg);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   UNIFIED DARK MODE SYSTEM (Charcoal / OLED Black)
+   ═══════════════════════════════════════════ */
+html.dark body {
+  background-color: #09090B !important;
+  color: #FAFAFA !important;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Cards & containers in Dark Mode */
+html.dark .section-card,
+html.dark div.bg-white,
+html.dark article.bg-white,
+html.dark form.bg-white {
+  background-color: #18181B !important;
+  border-color: #27272A !important;
+  color: #FAFAFA !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Inner cards & Secondary Badges */
+html.dark div[class*="bg-[#F"],
+html.dark div[class*="bg-[#F9FAFB]"],
+html.dark div[class*="bg-[#F8F7FF]"],
+html.dark div[class*="bg-[#FAFAFA]"] {
+  background-color: #27272A !important;
+  border-color: #3F3F46 !important;
+}
+
+/* Dark cards unification */
+html.dark div[class*="bg-[#191A23]"],
+html.dark div[class*="bg-[#1E1B4B]"] {
+  background-color: #18181B !important;
+  border-color: #3F3F46 !important;
+}
+
+/* Headings & Text in Dark Mode */
+html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5, html.dark h6 {
+  color: #FAFAFA !important;
+}
+
+html.dark p, html.dark span, html.dark label {
+  color: inherit;
+}
+
+html.dark [class*="text-[#191A23]"],
+html.dark [class*="text-[#1E1B4B]"],
+html.dark [class*="text-[#475569]"] {
+  color: #FAFAFA !important;
+}
+
+html.dark [class*="text-[#64748B]"],
+html.dark [class*="text-[#6B7280]"],
+html.dark [class*="text-[#9CA3AF]"] {
+  color: #A1A1AA !important;
+}
+
+/* Borders in Dark Mode */
+html.dark [class*="border-[#E5E7EB]"],
+html.dark [class*="border-purple-100"] {
+  border-color: #27272A !important;
+}
+
+/* Form inputs in Dark Mode */
+html.dark input,
+html.dark textarea {
+  background-color: #27272A !important;
+  color: #FAFAFA !important;
+  border-color: #3F3F46 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #71717A !important;
+}
+
+/* Navbar in Dark Mode */
+html.dark header {
+  background-color: #18181B !important;
+  border-color: #27272A !important;
+  color: #FAFAFA !important;
+}
+
+/* Footer in Dark Mode */
+html.dark footer {
+  background-color: #09090B !important;
+  border-color: #27272A !important;
+  color: #A1A1AA !important;
+}
+
+/* Modal in Dark Mode */
+html.dark .max-w-4xl.bg-white,
+html.dark .max-w-4xl .bg-white {
+  background-color: #18181B !important;
+  border-color: #27272A !important;
+  color: #FAFAFA !important;
+}
+
+
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   CUSTOM CURSOR (Lusion-inspired)
+   ═══════════════════════════════════════════ */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-purple-accent);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease;
+  will-change: transform;
+}
+
+.custom-cursor.hovering {
+  width: 50px;
+  height: 50px;
+  background: var(--color-accent);
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL-TRIGGERED ANIMATIONS
+   ═══════════════════════════════════════════ */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-fade-up.visible { opacity: 1; transform: translateY(0); }
+
+.anim-fade-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-fade-left.visible { opacity: 1; transform: translateX(0); }
+
+.anim-fade-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-fade-right.visible { opacity: 1; transform: translateX(0); }
+
+.anim-scale-in {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-scale-in.visible { opacity: 1; transform: scale(1); }
+
+.anim-rotate-in {
+  opacity: 0;
+  transform: rotate(-8deg) scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.anim-rotate-in.visible { opacity: 1; transform: rotate(0) scale(1); }
+
+/* Stagger delays */
+.delay-1 { transition-delay: 80ms !important; }
+.delay-2 { transition-delay: 160ms !important; }
+.delay-3 { transition-delay: 240ms !important; }
+.delay-4 { transition-delay: 320ms !important; }
+.delay-5 { transition-delay: 400ms !important; }
+.delay-6 { transition-delay: 480ms !important; }
+
+/* Text reveal animation */
+.text-reveal-line {
+  overflow: hidden;
+  display: block;
+}
+.text-reveal-line span {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.text-reveal-line.visible span {
+  transform: translateY(0);
+}
+
+/* Word-by-word reveal */
+.word-reveal .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) rotateX(-60deg);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center bottom;
+}
+.word-reveal.visible .word {
+  opacity: 1;
+  transform: translateY(0) rotateX(0);
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING ANIMATIONS (Lusion-inspired parallax)
+   ═══════════════════════════════════════════ */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(3deg); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(-2deg); }
+  75% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.05); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0.1); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+  75% { border-radius: 60% 40% 60% 30% / 60% 40% 30% 70%; }
+}
+
+.float-slow { animation: float-slow 6s ease-in-out infinite; }
+.float-medium { animation: float-medium 4s ease-in-out infinite; }
+.float-fast { animation: float-fast 3s ease-in-out infinite; }
+.spin-slow { animation: spin-slow 20s linear infinite; }
+.spin-reverse { animation: spin-reverse 15s linear infinite; }
+.wiggle { animation: wiggle 2s ease-in-out infinite; }
+.blob-morph { animation: blob-morph 8s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════
+   CARD HOVER EFFECTS
+   ═══════════════════════════════════════════ */
+.card-3d {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-3d:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08),
+              0 0 0 1px rgba(139, 92, 246, 0.1);
+}
+
+/* Magnetic button effect */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Highlight text with accent background */
+.highlight {
+  background-color: var(--color-accent);
+  border-radius: 6px;
+  padding: 2px 10px;
+  display: inline;
+}
+
+.highlight-purple {
+  background-color: var(--color-purple-accent);
+  color: white;
+  border-radius: 6px;
+  padding: 2px 10px;
+  display: inline;
+}
+
+/* ═══════════════════════════════════════════
+   WHITE CARD SECTIONS (like reference)
+   ═══════════════════════════════════════════ */
+.section-card {
+  background: white;
+  border-radius: 32px;
+  padding: 48px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .section-card {
+    border-radius: 24px;
+    padding: 24px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   MARQUEE
+   ═══════════════════════════════════════════ */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 25s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════
+   LOADING SCREEN
+   ═══════════════════════════════════════════ */
+@keyframes loader-reveal {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+
+@keyframes loader-text-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--color-purple-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: top;
+}
+
+.loader-screen.done {
+  animation: loader-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.loader-letter {
+  display: inline-block;
+  animation: loader-text-bounce 0.6s ease-in-out infinite;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   DECORATIVE SHAPES
+   ═══════════════════════════════════════════ */
+.deco-star {
+  color: var(--color-purple-accent);
+  pointer-events: none;
+}
+
+.deco-blob {
+  position: absolute;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(185, 255, 102, 0.1));
+  animation: blob-morph 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-purple-bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-purple-accent);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-purple-deep); }
+
+/* ═══════════════════════════════════════════
+   INPUT STYLES
+   ═══════════════════════════════════════════ */
+input, textarea { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* Restore cursor for interactive elements */
+a, button, input, textarea, select, [role="button"] {
+  cursor: none;
+}
+
+/* ═══════════════════════════════════════════
+   PARALLAX CONTAINER
+   ═══════════════════════════════════════════ */
+.parallax-element {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* Number counter animation */
+@keyframes count-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Smooth image reveal */
+.img-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-reveal.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Elastic spring animation */
+@keyframes elastic-in {
+  0% { transform: scale(0); }
+  55% { transform: scale(1.05); }
+  70% { transform: scale(0.97); }
+  85% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.elastic-in.visible {
+  animation: elastic-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Hide floating navbar when modal is active */
+body.modal-open header {
+  transform: translate(-50%, -150%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+}
